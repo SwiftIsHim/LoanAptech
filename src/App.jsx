@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import ApplyLoan from "./pages/ApplyLoan";
 export default function App() {
   return (
     <Router>
@@ -24,6 +25,8 @@ export default function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/apply" element={<ApplyLoan />} />
+          <Route path="/apply-loan" element={<ApplyLoan />} />
         </Routes>
 
         <Footer />

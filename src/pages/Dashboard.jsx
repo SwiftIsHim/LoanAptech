@@ -1,68 +1,194 @@
-import React from "react";
-import { Link } from "react-router-dom";
+// src/pages/Dashboard.jsx
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
-export default function Dashboard() {
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [loans, setLoans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchDashboardData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      // Fetch current user
+      const userResponse = await fetch("http://localhost:5000/api/auth/me", {
+        credentials: "include",
+      });
+
+      if (!userResponse.ok) {
+        navigate("/login");
+        return;
+      }
+
+      const userData = await userResponse.json();
+      setUser(userData.user);
+
+      // Fetch dashboard stats
+      const statsResponse = await fetch(
+        "http://localhost:5000/api/loans/dashboard/stats",
+        {
+          credentials: "include",
+        },
+      );
+
+      if (statsResponse.ok) {
+        const statsData = await statsResponse.json();
+        setStats(statsData.stats);
+      }
+
+      // Fetch my loans
+      const loansResponse = await fetch(
+        "http://localhost:5000/api/loans/my-loans",
+        {
+          credentials: "include",
+        },
+      );
+
+      if (loansResponse.ok) {
+        const loansData = await loansResponse.json();
+        setLoans(loansData.loans ?? []);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Unable to load dashboard. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("http://localhost:5000/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      localStorage.removeItem("user");
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
+  };
+
+  const handleApplyLoan = () => {
+    navigate("/apply-loan");
+  };
+
+  const formatCurrency = (value) => {
+    const num = Number(value);
+    return Number.isFinite(num) ? num.toLocaleString() : "0";
+  };
+
+  if (loading) {
+    return (
+      <div className="dashboard-container">
+        <div className="loading">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h1>Welcome To dashboard</h1>
-        <h1>Welcome To dashboard</h1>
-        {/* <h1>Welcome To dashboard</h1>
+      <div className="dashboard-header">
+        <div>
+          <h1>Dashboard</h1>
+          {user && <div className="user-info">Welcome, {user.name}</div>}
+        </div>
+        <button onClick={handleLogout} className="logout-btn">
+          Logout
+        </button>
+      </div>
 
-        <p>Here's a quick overview of your loan account.</p> */}
-      </header>
+      {error && <div className="error-message">{error}</div>}
 
-      {/* <section className="dashboard-stats">
-        <div className="stat-card">
-          <h3>Active Loan</h3>
-          <p className="stat-value">12,500</p>
-          <span className="stat-label">Outstanding balance</span>
+      {stats && (
+        <div className="stats-grid">
+          <div className="stat-card">
+            <h3>Total Loans</h3>
+            <div className="stat-value">{stats.totalLoans ?? 0}</div>
+          </div>
+          <div className="stat-card">
+            <h3>Pending</h3>
+            <div className="stat-value">{stats.pendingLoans ?? 0}</div>
+          </div>
+          <div className="stat-card">
+            <h3>Approved</h3>
+            <div className="stat-value">{stats.approvedLoans ?? 0}</div>
+          </div>
+          <div className="stat-card">
+            <h3>Active</h3>
+            <div className="stat-value">{stats.activeLoans ?? 0}</div>
+          </div>
+          <div className="stat-card">
+            <h3>Total Borrowed</h3>
+            <div className="stat-value">
+              ₱{formatCurrency(stats.totalBorrowed)}
+            </div>
+          </div>
+          <div className="stat-card">
+            <h3>Total Repayment</h3>
+            <div className="stat-value">
+              ₱{formatCurrency(stats.totalRepayment)}
+            </div>
+          </div>
         </div>
-        <div className="stat-card">
-          <h3>Next Payment</h3>
-          <p className="stat-value">420</p>
-          <span className="stat-label">Due May 15, 2026</span>
-        </div>
-        <div className="stat-card">
-          <h3>Credit Score</h3>
-          <p className="stat-value">742</p>
-          <span className="stat-label">Good standing</span>
-        </div>
-      </section> */}
+      )}
 
-      {/* <section className="dashboard-actions">
-        <h2>Quick Actions</h2>
-        <div className="actions-grid">
-          <Link to="/apply" className="action-btn">
-            Apply for new loan
-          </Link>
-          <Link to="/loanstatus" className="action-btn">
-            Check loan status
-          </Link>
-          <Link to="/contact" className="action-btn">
-            Contact support
-          </Link>
+      <div className="dashboard-content">
+        <div className="content-header">
+          <h2>My Loans</h2>
+          <button className="apply-loan-btn" onClick={handleApplyLoan}>
+            Apply for New Loan
+          </button>
         </div>
-      </section> */}
-      {/* 
-      <section className="dashboard-activity">
-        <h2>Recent Activity</h2>
-        <ul className="activity-list">
-          <li>
-            <span>Payment received</span>
-            <span className="activity-date">Apr 15, 2026</span>
-          </li>
-          <li>
-            <span>Statement generated</span>
-            <span className="activity-date">Apr 01, 2026</span>
-          </li>
-          <li>
-            <span>Loan disbursed</span>
-            <span className="activity-date">Jan 10, 2026</span>
-          </li>
-        </ul>
-      </section> */}
+
+        {loans.length > 0 ? (
+          <table className="loans-table">
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Purpose</th>
+                <th>Duration</th>
+                <th>Monthly Payment</th>
+                <th>Status</th>
+                <th>Applied Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loans.map((loan) => (
+                <tr key={loan._id}>
+                  <td>₱{formatCurrency(loan.amount)}</td>
+                  <td>{loan.purpose}</td>
+                  <td>{loan.duration} months</td>
+                  <td>₱{formatCurrency(loan.monthlyPayment)}</td>
+                  <td>
+                    <span className={`status-badge ${loan.status}`}>
+                      {loan.status}
+                    </span>
+                  </td>
+                  <td>{new Date(loan.appliedDate).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="no-loans">
+            You haven't applied for any loans yet. Click the button above to get
+            started!
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+};
+
+export default Dashboard;
