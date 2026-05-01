@@ -17,9 +17,12 @@ const Dashboard = () => {
       setError("");
 
       // Fetch current user
-      const userResponse = await fetch("http://localhost:5000/api/auth/me", {
-        credentials: "include",
-      });
+      const userResponse = await fetch(
+        "https://loanaptech-j1ii.onrender.com/api/auth/me",
+        {
+          credentials: "include",
+        },
+      );
 
       if (!userResponse.ok) {
         navigate("/login");
@@ -31,7 +34,7 @@ const Dashboard = () => {
 
       // Fetch dashboard stats
       const statsResponse = await fetch(
-        "http://localhost:5000/api/loans/dashboard/stats",
+        "https://loanaptech-j1ii.onrender.com/api/loans/dashboard/stats",
         {
           credentials: "include",
         },
@@ -44,7 +47,7 @@ const Dashboard = () => {
 
       // Fetch my loans
       const loansResponse = await fetch(
-        "http://localhost:5000/api/loans/my-loans",
+        "https://loanaptech-j1ii.onrender.com/api/loans/my-loans",
         {
           credentials: "include",
         },
@@ -68,7 +71,7 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:5000/api/auth/logout", {
+      await fetch("https://loanaptech-j1ii.onrender.com/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });

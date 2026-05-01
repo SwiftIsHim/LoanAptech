@@ -10,15 +10,17 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     checkAuth();
-  }, [location]); 
+  }, [location]);
 
   const checkAuth = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/me", {
-        credentials: "include"
-      });
+      const response = await fetch(
+        "https://loanaptech-j1ii.onrender.com/api/auth/me",
+        {
+          credentials: "include",
+        },
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -35,9 +37,9 @@ function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:5000/api/auth/logout", {
+      await fetch("https://loanaptech-j1ii.onrender.com/api/auth/logout", {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
 
       setUser(null);
@@ -50,7 +52,6 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-
         {/* Logo */}
         <Link to="/" className="navbar-logo">
           LoanAptech
@@ -59,25 +60,37 @@ function Navbar() {
         {/* Desktop Menu */}
         <ul className="navbar-menu">
           <li>
-            <Link to="/" className={isActive("/") ? "nav-link active" : "nav-link"}>
+            <Link
+              to="/"
+              className={isActive("/") ? "nav-link active" : "nav-link"}
+            >
               Home
             </Link>
           </li>
 
           <li>
-            <Link to="/loans" className={isActive("/loans") ? "nav-link active" : "nav-link"}>
+            <Link
+              to="/loans"
+              className={isActive("/loans") ? "nav-link active" : "nav-link"}
+            >
               Loans
             </Link>
           </li>
 
           <li>
-            <Link to="/about" className={isActive("/about") ? "nav-link active" : "nav-link"}>
+            <Link
+              to="/about"
+              className={isActive("/about") ? "nav-link active" : "nav-link"}
+            >
               About
             </Link>
           </li>
 
           <li>
-            <Link to="/contact" className={isActive("/contact") ? "nav-link active" : "nav-link"}>
+            <Link
+              to="/contact"
+              className={isActive("/contact") ? "nav-link active" : "nav-link"}
+            >
               Contact
             </Link>
           </li>
@@ -85,7 +98,10 @@ function Navbar() {
           {/* Logged-in only */}
           {user && (
             <li>
-              <Link to="/apply" className={isActive("/apply") ? "nav-link active" : "nav-link"}>
+              <Link
+                to="/apply"
+                className={isActive("/apply") ? "nav-link active" : "nav-link"}
+              >
                 Apply Now
               </Link>
             </li>
@@ -139,41 +155,73 @@ function Navbar() {
 
       {/* Mobile Menu */}
       <div className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}>
-        <Link to="/" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>
+        <Link
+          to="/"
+          className="mobile-link"
+          onClick={() => setMobileMenuOpen(false)}
+        >
           Home
         </Link>
 
-        <Link to="/loans" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>
+        <Link
+          to="/loans"
+          className="mobile-link"
+          onClick={() => setMobileMenuOpen(false)}
+        >
           Loans
         </Link>
 
-        <Link to="/about" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>
+        <Link
+          to="/about"
+          className="mobile-link"
+          onClick={() => setMobileMenuOpen(false)}
+        >
           About
         </Link>
 
-        <Link to="/contact" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>
+        <Link
+          to="/contact"
+          className="mobile-link"
+          onClick={() => setMobileMenuOpen(false)}
+        >
           Contact
         </Link>
 
         {user && (
-          <Link to="/apply" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>
+          <Link
+            to="/apply"
+            className="mobile-link"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Apply Now
           </Link>
         )}
 
         {user && (
-          <Link to="/dashboard" className="mobile-cta" onClick={() => setMobileMenuOpen(false)}>
+          <Link
+            to="/dashboard"
+            className="mobile-cta"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Dashboard
           </Link>
         )}
 
         {!user && (
           <>
-            <Link to="/login" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              to="/login"
+              className="mobile-link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Login
             </Link>
 
-            <Link to="/signup" className="mobile-cta" onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              to="/signup"
+              className="mobile-cta"
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Sign Up
             </Link>
           </>

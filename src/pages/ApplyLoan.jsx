@@ -39,20 +39,23 @@ const ApplyLoan = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/loans/apply", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://loanaptech-j1ii.onrender.com/api/loans/apply",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            fullName: formData.fullName,
+            email: formData.email,
+            amount: Number(formData.amount),
+            duration: Number(formData.tenure),
+            purpose: formData.purpose,
+          }),
         },
-        credentials: "include",
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          email: formData.email,
-          amount: Number(formData.amount),
-          duration: Number(formData.tenure),
-          purpose: formData.purpose,
-        }),
-      });
+      );
 
       const data = await response.json();
 
@@ -141,11 +144,7 @@ const ApplyLoan = () => {
 
           {error && <p style={{ color: "red", margin: 0 }}>{error}</p>}
 
-          <button
-            type="submit"
-            className="apply-submit-btn"
-            disabled={loading}
-          >
+          <button type="submit" className="apply-submit-btn" disabled={loading}>
             {loading ? "Submitting..." : "Submit Application"}
           </button>
         </form>

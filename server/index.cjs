@@ -9,7 +9,10 @@ const app = express();
 connectDB();
 
 // Middleware
-const allowedOrigins = (process.env.CLIENT_ORIGIN || "http://localhost:5173,http://localhost:5174")
+const allowedOrigins = (
+  process.env.CLIENT_ORIGIN ||
+  "http://localhost:5173,http://localhost:5174,https://loan-aptech-lilac.vercel.app/"
+)
   .split(",")
   .map((o) => o.trim());
 
