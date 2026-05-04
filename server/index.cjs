@@ -11,10 +11,10 @@ connectDB();
 // Middleware
 const allowedOrigins = (
   process.env.CLIENT_ORIGIN ||
-  "http://localhost:5173,http://localhost:5174,https://loan-aptech-lilac.vercel.app/"
+  "http://localhost:5173,http://localhost:5174,https://loan-aptech-lilac.vercel.app"
 )
   .split(",")
-  .map((o) => o.trim());
+  .map((o) => o.trim().replace(/\/$/, ""));
 
 app.use(
   cors({
