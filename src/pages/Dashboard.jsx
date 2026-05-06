@@ -134,13 +134,13 @@ const Dashboard = () => {
           <div className="stat-card">
             <h3>Total Borrowed</h3>
             <div className="stat-value">
-              ₱{formatCurrency(stats.totalBorrowed)}
+              ₦{formatCurrency(stats.totalBorrowed)}
             </div>
           </div>
           <div className="stat-card">
             <h3>Total Repayment</h3>
             <div className="stat-value">
-              ₱{formatCurrency(stats.totalRepayment)}
+              ₦{formatCurrency(stats.totalRepayment)}
             </div>
           </div>
         </div>
@@ -155,34 +155,36 @@ const Dashboard = () => {
         </div>
 
         {loans.length > 0 ? (
-          <table className="loans-table">
-            <thead>
-              <tr>
-                <th>Amount</th>
-                <th>Purpose</th>
-                <th>Duration</th>
-                <th>Monthly Payment</th>
-                <th>Status</th>
-                <th>Applied Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loans.map((loan) => (
-                <tr key={loan._id}>
-                  <td>₱{formatCurrency(loan.amount)}</td>
-                  <td>{loan.purpose}</td>
-                  <td>{loan.duration} months</td>
-                  <td>₱{formatCurrency(loan.monthlyPayment)}</td>
-                  <td>
-                    <span className={`status-badge ${loan.status}`}>
-                      {loan.status}
-                    </span>
-                  </td>
-                  <td>{new Date(loan.appliedDate).toLocaleDateString()}</td>
+          <div className="table-wrapper">
+            <table className="loans-table">
+              <thead>
+                <tr>
+                  <th>Amount</th>
+                  <th>Purpose</th>
+                  <th>Duration</th>
+                  <th>Monthly Payment</th>
+                  <th>Status</th>
+                  <th>Applied Date</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {loans.map((loan) => (
+                  <tr key={loan._id}>
+                    <td>₦{formatCurrency(loan.amount)}</td>
+                    <td>{loan.purpose}</td>
+                    <td>{loan.duration} months</td>
+                    <td>₦{formatCurrency(loan.monthlyPayment)}</td>
+                    <td>
+                      <span className={`status-badge status-${loan.status}`}>
+                        {loan.status}
+                      </span>
+                    </td>
+                    <td>{new Date(loan.appliedDate).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="no-loans">
             You haven't applied for any loans yet. Click the button above to get

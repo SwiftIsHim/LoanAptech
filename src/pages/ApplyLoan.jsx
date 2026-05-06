@@ -142,7 +142,7 @@ const ApplyLoan = () => {
             />
           </div>
 
-          {error && <p style={{ color: "red", margin: 0 }}>{error}</p>}
+          {error && <p className="apply-error">{error}</p>}
 
           <button type="submit" className="apply-submit-btn" disabled={loading}>
             {loading ? "Submitting..." : "Submit Application"}

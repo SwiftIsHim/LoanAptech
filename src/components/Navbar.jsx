@@ -70,19 +70,19 @@ function Navbar() {
 
           <li>
             <Link
-              to="/loans"
-              className={isActive("/loans") ? "nav-link active" : "nav-link"}
+              to="/about"
+              className={isActive("/about") ? "nav-link active" : "nav-link"}
             >
-              Loans
+              About
             </Link>
           </li>
 
           <li>
             <Link
-              to="/about"
-              className={isActive("/about") ? "nav-link active" : "nav-link"}
+              to="/faq"
+              className={isActive("/faq") ? "nav-link active" : "nav-link"}
             >
-              About
+              FAQ
             </Link>
           </li>
 
@@ -164,19 +164,19 @@ function Navbar() {
         </Link>
 
         <Link
-          to="/loans"
-          className="mobile-link"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Loans
-        </Link>
-
-        <Link
           to="/about"
           className="mobile-link"
           onClick={() => setMobileMenuOpen(false)}
         >
           About
+        </Link>
+
+        <Link
+          to="/faq"
+          className="mobile-link"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          FAQ
         </Link>
 
         <Link

@@ -118,7 +118,7 @@ const Signup = () => {
           value={formData.confirmPassword}
           onChange={handleChange}
         />
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p className="auth-error">{error}</p>}
         <button type="submit" disabled={loading}>
           {loading ? "Signing Up..." : "Sign Up"}
         </button>

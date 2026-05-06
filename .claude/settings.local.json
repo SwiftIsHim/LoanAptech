@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(timeout 6 node index.cjs)",
-      "Bash(timeout 5 node index.cjs)"
+      "Bash(timeout 5 node index.cjs)",
+      "Bash(npx eslint *)",
+      "Bash(npx vite *)"
     ]
   }
 }
